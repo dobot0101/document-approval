@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm'
 import { ApprovalLine } from './ApprovalLine'
-import { Document } from './Document'
+import { ApprovalRequest } from './ApprovalRequest'
 
 @Entity()
 export class User {
@@ -16,12 +16,12 @@ export class User {
   @Column('text')
   password!: string
 
-  @Column('datetime')
+  @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
   createdAt!: Date
 
-  @OneToMany(() => Document, document => document.requester)
-  document!: Document
+  @OneToMany(() => ApprovalRequest, request => request.requester, { nullable: true })
+  requests!: ApprovalRequest[] | null
 
-  @OneToMany(() => ApprovalLine, approvalLine => approvalLine.approver)
-  approvalLines!: ApprovalLine[]
+  @OneToMany(() => ApprovalLine, approvalLine => approvalLine.approver, { nullable: true })
+  approvalLines!: ApprovalLine[] | null
 }

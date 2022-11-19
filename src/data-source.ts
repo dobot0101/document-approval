@@ -1,9 +1,6 @@
 import 'reflect-metadata'
 import { DataSource } from 'typeorm'
-import { User } from './typeorm/entity/User'
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies'
-import { Document } from './typeorm/entity/Document'
-import { ApprovalLine } from './typeorm/entity/ApprovalLine'
 
 export const AppDataSource = new DataSource({
   type: 'mysql',
@@ -13,8 +10,9 @@ export const AppDataSource = new DataSource({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   synchronize: true,
-  logging: false,
-  entities: [User, Document, ApprovalLine],
+  // dropSchema: true,
+  logging: true,
+  entities: ['dist/typeorm/entity/*.js'],
   migrations: [],
   subscribers: [],
   namingStrategy: new SnakeNamingStrategy(),

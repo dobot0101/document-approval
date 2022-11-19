@@ -3,11 +3,7 @@ import { configs } from '../configs'
 import jwt from 'jsonwebtoken'
 
 export class JwtService {
-  private JWT_SECRET_KEY
-  constructor() {
-    this.JWT_SECRET_KEY = configs.JWT_SECRET_KEY
-  }
-  getUserIdFromRequest(req: Request) {
+  static getJwtFromRequest(req: Request) {
     const token = this.extractTokenFromRequest(req)
     if (!token) {
       return null
@@ -15,7 +11,7 @@ export class JwtService {
     return this.decodeJWT(token)
   }
 
-  extractTokenFromRequest(req: Request) {
+  static extractTokenFromRequest(req: Request) {
     const TOKEN_PREFIX = 'Bearer '
     const auth = req.headers.authorization
     if (!auth) {
@@ -24,21 +20,20 @@ export class JwtService {
     return auth.includes(TOKEN_PREFIX) ? auth.split(TOKEN_PREFIX)[1] : auth
   }
 
-  decodeJWT(token: string) {
+  static decodeJWT(token: string) {
     try {
-      const decodedToken = jwt.verify(token, this.JWT_SECRET_KEY)
-      return decodedToken
-    } catch (error) {
-      throw error
+      return jwt.verify(token, configs.JWT_SECRET_KEY)
+    } catch (error: any) {
+      throw new Error(error)
     }
   }
 
-  createJWT(userId: string) {
+  static createJWT(userId: string) {
     return jwt.sign(
       {
         id: userId,
       },
-      this.JWT_SECRET_KEY,
+      configs.JWT_SECRET_KEY,
     )
   }
 }
