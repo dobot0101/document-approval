@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm'
 import { ApprovalLineStatus } from '../enums'
-import { ApprovalStep } from './ApprovalStep'
+import { ApprovalRequest } from './ApprovalRequest'
 import { User } from './User'
 
 @Entity()
@@ -10,6 +10,9 @@ export class ApprovalLine {
 
   @Column('text', { nullable: true })
   comment!: string | null
+
+  @Column('int')
+  order!: number
 
   @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
   createdAt!: Date
@@ -24,6 +27,8 @@ export class ApprovalLine {
   @ManyToOne(() => User, user => user.approvalLines)
   approver!: User
 
-  @ManyToOne(() => ApprovalStep, step => step.lines)
-  step!: ApprovalStep
+  @ManyToOne(() => ApprovalRequest, approvalRequest => approvalRequest.approvalLines, {
+    eager: true,
+  })
+  approvalRequest!: ApprovalRequest
 }

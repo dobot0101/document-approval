@@ -27,5 +27,5 @@ export const users = [
  */
 export async function initTestData() {
   await AppDataSource.getRepository(User).save(users)
-  console.log(await AppDataSource.getRepository(User).find())
+  // console.log(await AppDataSource.getRepository(User).find())
 }

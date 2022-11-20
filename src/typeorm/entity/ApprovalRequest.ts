@@ -1,6 +1,6 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryColumn } from 'typeorm'
+import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm'
 import { ApprovalRequestType } from '../enums'
-import { ApprovalStep } from './ApprovalStep'
+import { ApprovalLine } from './ApprovalLine'
 import { User } from './User'
 
 @Entity()
@@ -17,16 +17,12 @@ export class ApprovalRequest {
   @Column('enum', { enum: ApprovalRequestType })
   type!: ApprovalRequestType
 
-  @OneToMany(() => ApprovalStep, step => step.request, { cascade: true })
-  steps!: ApprovalStep[]
-
-  @OneToOne(() => ApprovalStep)
-  @JoinColumn()
-  currentStep!: ApprovalStep
-
   @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
   createdAt!: Date
 
   @ManyToOne(() => User, user => user.requests)
   requester!: User
+
+  @OneToMany(() => ApprovalLine, approvalLine => approvalLine.approvalRequest, { cascade: true })
+  approvalLines!: ApprovalLine[]
 }
