@@ -1,10 +1,10 @@
 import 'reflect-metadata'
 import express, { Express, NextFunction, Request, Response } from 'express'
-import { configs } from './configs'
-import { AppDataSource } from './data-source'
-import { initTestData } from './init-data'
-import authRouter from './routers/Auth'
-import approvalRequestRouter from './routers/ApprovalRequest'
+import { configs } from './common/configs'
+import { AppDataSource } from './common/data-source'
+import { initTestData } from './common/init-data'
+import approvalRequestRouter from './controllers/ApprovalRequest.controller'
+import authRouter from './controllers/Auth.controller'
 
 AppDataSource.initialize()
   .then(async () => {
@@ -25,7 +25,10 @@ function initServer() {
     res.send('hello world!!!')
   })
 
+  // 인증(회원가입, 로그인)
   app.use('/auth', authRouter)
+
+  // 결재
   app.use('/approval-request', approvalRequestRouter)
 
   app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
@@ -33,6 +36,6 @@ function initServer() {
   })
 
   app.listen(port, () => {
-    console.log(`Server is running at https://localhost:${port}`)
+    console.log(`Server is running at http://localhost:${port}`)
   })
 }

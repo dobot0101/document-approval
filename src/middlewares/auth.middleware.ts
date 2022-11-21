@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { JwtPayload } from 'jsonwebtoken'
-import { JwtService } from '../services/Jwt'
+import { JwtService } from '../services/Jwt.service'
 
 export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
   const jwt = JwtService.getJwtFromRequest(req) as JwtPayload

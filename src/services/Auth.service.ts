@@ -1,10 +1,10 @@
 import { Service } from 'typedi'
-import { UserRepository } from '../repositories/User'
+import { UserRepository } from '../repositories/User.repository'
 import bcrypt from 'bcrypt'
-import { AppDataSource } from '../data-source'
-import { User } from '../typeorm/entity/User'
+import { AppDataSource } from '../common/data-source'
+import { User } from '../entities/User'
 import { randomUUID } from 'crypto'
-import { JwtService } from './Jwt'
+import { JwtService } from './Jwt.service'
 
 export type LoginInput = {
   email: string

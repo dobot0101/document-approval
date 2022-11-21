@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm'
-import { ApprovalLineStatus } from '../enums'
+import { ApprovalLineStatus } from '../common/enums'
 import { ApprovalRequest } from './ApprovalRequest'
 import { User } from './User'
 
@@ -24,11 +24,15 @@ export class ApprovalLine {
   })
   status!: ApprovalLineStatus
 
-  @ManyToOne(() => User, user => user.approvalLines)
+  @ManyToOne(() => User, user => user.approvalLines, { cascade: true })
   approver!: User
 
-  @ManyToOne(() => ApprovalRequest, approvalRequest => approvalRequest.approvalLines, {
-    eager: true,
-  })
+  @Column('uuid')
+  approverId!: string
+
+  @ManyToOne(() => ApprovalRequest, approvalRequest => approvalRequest.approvalLines)
   approvalRequest!: ApprovalRequest
+
+  @Column('uuid')
+  approvalRequestId!: string
 }

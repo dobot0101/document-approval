@@ -2,9 +2,9 @@ import express, { NextFunction, Request, Response } from 'express'
 import { body, param } from 'express-validator'
 import Container from 'typedi'
 import { checkValidationError } from '../common/functions'
-import { authenticateToken } from '../middlewares/auth'
-import { ApprovalRequestInput, ApprovalRequestService } from '../services/ApprovalRequest'
-import { ApprovalRequestType } from '../typeorm/enums'
+import { authenticateToken } from '../middlewares/auth.middleware'
+import { ApprovalRequestInput, ApprovalRequestService } from '../services/ApprovalRequest.service'
+import { ApprovalRequestType } from '../common/enums'
 
 const router = express.Router()
 const approvalRequestService = Container.get(ApprovalRequestService)
@@ -103,9 +103,9 @@ router.post(
         key => ApprovalRequestType[key as keyof typeof ApprovalRequestType],
       ),
     ),
-    body('approvalLines').isArray(),
-    body('approvalLines.*.approverId').trim().isString().notEmpty(),
-    body('approvalLines.*.order').trim().isInt().notEmpty(),
+    body('approvalLineInputs').isArray(),
+    body('approvalLineInputs.*.approverId').trim().isString().notEmpty(),
+    body('approvalLineInputs.*.order').trim().isInt().notEmpty(),
   ],
   checkValidationError,
   async (req: Request, res: Response, next: NextFunction) => {

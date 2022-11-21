@@ -1,3 +1,9 @@
+export enum ApprovalRequestStatus {
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+  REQUESTED = 'REQUESTED',
+}
+
 /**
  * 결재결과
  * APPROVED: 승인
@@ -15,13 +21,4 @@ export enum ApprovalLineStatus {
 export enum ApprovalRequestType {
   VACATION = 'VACATION',
   DISBURSEMENT = 'DISBURSEMENT',
-}
-
-/**
- * REVIEW: 검토
- * APPROVAL: 승인
- */
-export enum ApprovalStepType {
-  REVIEW = 'REVIEW',
-  APPROVAL = 'APPROVAL',
 }

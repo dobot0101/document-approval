@@ -1,5 +1,5 @@
 import { AppDataSource } from './data-source'
-import { User } from './typeorm/entity/User'
+import { User } from '../entities/User'
 
 export const users = [
   {

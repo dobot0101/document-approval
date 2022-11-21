@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from 'express'
 import { body } from 'express-validator'
 import Container from 'typedi'
 import { checkValidationError } from '../common/functions'
-import { AuthService, LoginInput, SignupInput } from '../services/Auth'
+import { AuthService, LoginInput, SignupInput } from '../services/Auth.service'
 
 const router = express.Router()
 const authService = Container.get(AuthService)

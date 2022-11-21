@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm'
-import { ApprovalRequestType } from '../enums'
+import { ApprovalRequestStatus, ApprovalRequestType } from '../common/enums'
 import { ApprovalLine } from './ApprovalLine'
 import { User } from './User'
 
@@ -23,6 +23,18 @@ export class ApprovalRequest {
   @ManyToOne(() => User, user => user.requests)
   requester!: User
 
-  @OneToMany(() => ApprovalLine, approvalLine => approvalLine.approvalRequest, { cascade: true })
+  @Column('uuid')
+  requesterId!: string
+
+  @OneToMany(() => ApprovalLine, approvalLine => approvalLine.approvalRequest, {
+    cascade: true,
+    eager: true,
+  })
   approvalLines!: ApprovalLine[]
+
+  @Column('uuid', { nullable: true })
+  nextApprovalLineId!: string | null
+
+  @Column('enum', { enum: ApprovalRequestStatus, default: ApprovalRequestStatus.REQUESTED })
+  status!: ApprovalRequestStatus
 }

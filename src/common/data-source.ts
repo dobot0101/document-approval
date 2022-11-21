@@ -12,7 +12,7 @@ export const AppDataSource = new DataSource({
   synchronize: true,
   // dropSchema: true,
   logging: true,
-  entities: ['dist/typeorm/entity/*.js'],
+  entities: ['dist/entities/*.js'],
   migrations: [],
   subscribers: [],
   namingStrategy: new SnakeNamingStrategy(),

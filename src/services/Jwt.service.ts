@@ -1,5 +1,5 @@
 import { Request } from 'express'
-import { configs } from '../configs'
+import { configs } from '../common/configs'
 import jwt from 'jsonwebtoken'
 
 export class JwtService {
