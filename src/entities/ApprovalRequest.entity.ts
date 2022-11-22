@@ -1,7 +1,7 @@
 import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm'
 import { ApprovalRequestStatus, ApprovalRequestType } from '../common/enums'
-import { ApprovalLine } from './ApprovalLine'
-import { User } from './User'
+import { ApprovalLine } from './ApprovalLine.entity'
+import { User } from './User.entity'
 
 @Entity()
 export class ApprovalRequest {

@@ -1,6 +1,6 @@
 import { Service } from 'typedi'
 import { AppDataSource } from '../common/data-source'
-import { User } from '../entities/User'
+import { User } from '../entities/User.entity'
 
 @Service()
 export class UserRepository {

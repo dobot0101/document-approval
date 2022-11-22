@@ -1,17 +1,19 @@
 import 'reflect-metadata'
-import express, { Express, NextFunction, Request, Response } from 'express'
 import { configs } from './common/configs'
-import { AppDataSource } from './common/data-source'
+import express, { Express, NextFunction, Request, Response } from 'express'
+import { createDataSource } from './common/data-source'
 import { initTestData } from './common/init-data'
 import approvalRequestRouter from './controllers/ApprovalRequest.controller'
 import authRouter from './controllers/Auth.controller'
 
-AppDataSource.initialize()
-  .then(async () => {
-    await initTestData()
-    initServer()
-  })
-  .catch(error => console.log(error))
+async function main() {
+  const AppDataSource = createDataSource()
+  await AppDataSource.initialize()
+  await initTestData()
+  initServer()
+}
+
+main().catch(error => console.log(error))
 
 /**
  * express 초기화

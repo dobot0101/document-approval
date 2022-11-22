@@ -1,7 +1,7 @@
 import { Service } from 'typedi'
 import { AppDataSource } from '../common/data-source'
-import { ApprovalLine } from '../entities/ApprovalLine'
-import { ApprovalRequest } from '../entities/ApprovalRequest'
+import { ApprovalLine } from '../entities/ApprovalLine.entity'
+import { ApprovalRequest } from '../entities/ApprovalRequest.entity'
 import { ApprovalRequestStatus } from '../common/enums'
 
 @Service()

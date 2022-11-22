@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm'
-import { ApprovalLine } from './ApprovalLine'
-import { ApprovalRequest } from './ApprovalRequest'
+import { ApprovalLine } from './ApprovalLine.entity'
+import { ApprovalRequest } from './ApprovalRequest.entity'
 
 @Entity()
 export class User {

@@ -10,10 +10,12 @@
       "experimentalDecorators": true,
       "emitDecoratorMetadata": true
    },
-   // "include": [
-   //   "src/**/*"
-   // ],
+   "include": [
+      "src"
+   ],
    "exclude": [
-      "node_modules"
+      "node_modules",
+      "src/**/*.test.ts",
+      "src/**/*.spec.ts"
    ]
 }

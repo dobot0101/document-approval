@@ -1,31 +1,11 @@
 import { randomUUID } from 'crypto'
 import { Service } from 'typedi'
 import { AppDataSource } from '../common/data-source'
+import { ApprovalLineStatus, ApprovalRequestStatus, ApprovalRequestType } from '../common/enums'
+import { ApprovalLine } from '../entities/ApprovalLine.entity'
+import { ApprovalRequest } from '../entities/ApprovalRequest.entity'
 import { ApprovalLineRepository } from '../repositories/ApprovalLine.repository'
 import { ApprovalRequestRepository } from '../repositories/ApprovalRequest.repository'
-import { ApprovalLine } from '../entities/ApprovalLine'
-import { ApprovalRequest } from '../entities/ApprovalRequest'
-import { ApprovalLineStatus, ApprovalRequestStatus, ApprovalRequestType } from '../common/enums'
-
-export type ApproveInput = {
-  approvalLineId: string
-  userId: string
-  comment?: string | null
-}
-export type RejectInput = {
-  approvalLineId: string
-  userId: string
-  comment?: string | null
-}
-export type ApprovalRequestInput = {
-  title: string
-  content: string
-  type: ApprovalRequestType
-  approvalLineInputs: {
-    approverId: string
-    order: number
-  }[]
-}
 
 @Service()
 export class ApprovalRequestService {
@@ -70,14 +50,12 @@ export class ApprovalRequestService {
    */
   async reject(input: RejectInput) {
     const { approvalLineId, userId, comment } = input
-    const approvalLine = await this.approvalLineRepository.getByIdAndUserId(approvalLineId, userId)
+    const approvalLine = await this.approvalLineRepository.getById(approvalLineId)
     if (!approvalLine) {
       throw new Error('결재선이 없습니다.')
     }
 
-    if (approvalLine.status !== null) {
-      throw new Error('이미 처리된 결재선입니다.')
-    }
+    this.validateApprovalLine(approvalLine, userId)
 
     // 내 차례인지 확인
     const { approvalRequestId } = approvalLine
@@ -104,9 +82,8 @@ export class ApprovalRequestService {
     ) {
       approvalRequest.status = ApprovalRequestStatus.REJECTED
       approvalRequest.nextApprovalLineId = null
+      await this.approvalRequestRepository.save(approvalRequest)
     }
-
-    await this.approvalRequestRepository.save(approvalRequest)
 
     return updatedApprovalLine
   }
@@ -114,16 +91,16 @@ export class ApprovalRequestService {
   /**
    * 결재 승인
    */
+
   async approve(input: ApproveInput) {
     const { approvalLineId, userId, comment } = input
-    const approvalLine = await this.approvalLineRepository.getByIdAndUserId(approvalLineId, userId)
+    const approvalLine = await this.approvalLineRepository.getById(approvalLineId)
+
     if (!approvalLine) {
       throw new Error('결재선이 없습니다.')
     }
 
-    if (approvalLine.status !== null) {
-      throw new Error('이미 처리된 결재선입니다.')
-    }
+    this.validateApprovalLine(approvalLine, userId)
 
     // 내 차례인지 확인
     const { approvalRequestId } = approvalLine
@@ -211,4 +188,37 @@ export class ApprovalRequestService {
     approvalLine.status = status
     return this.approvalLineRepository.save(approvalLine)
   }
+
+  /**
+   * ApprovalLine이 결재 가능한 상태인지, 결재자가 나인지 확인
+   */
+  private validateApprovalLine(approvalLine: ApprovalLine, userId: string) {
+    if (approvalLine.status !== null) {
+      throw new Error('이미 처리된 결재선입니다.')
+    }
+
+    if (approvalLine.approverId !== userId) {
+      throw new Error('결재자가 아닙니다.')
+    }
+  }
+}
+
+export type ApproveInput = {
+  approvalLineId: string
+  userId: string
+  comment?: string | null
+}
+export type RejectInput = {
+  approvalLineId: string
+  userId: string
+  comment?: string | null
+}
+export type ApprovalRequestInput = {
+  title: string
+  content: string
+  type: ApprovalRequestType
+  approvalLineInputs: {
+    approverId: string
+    order: number
+  }[]
 }
