@@ -2,10 +2,10 @@ import { JwtPayload } from 'jsonwebtoken'
 import Container from 'typedi'
 import { AppDataSource, createDataSource } from '../../common/data-source'
 import { User } from '../../entities/User.entity'
-import { AuthService } from '../Auth.service'
+import { UserService } from '../User.service'
 import { JwtService } from '../Jwt.service'
 
-const authService = Container.get(AuthService)
+const userService = Container.get(UserService)
 
 beforeAll(async () => {
   createDataSource(true)
@@ -20,7 +20,7 @@ describe('회원 테스트(회원가입/로그인)', () => {
 
   it('로그인한다.', async () => {
     const user = await signupByEmail('test123123@test.com')
-    const loginToken = await authService.login({
+    const loginToken = await userService.login({
       email: user.email,
       password: 'test',
     })
@@ -40,7 +40,7 @@ afterAll(async () => {
 })
 
 async function signupByEmail(email: string) {
-  const user = await authService.signup({
+  const user = await userService.signup({
     email,
     name: 'tester',
     password: 'test',

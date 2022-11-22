@@ -18,7 +18,7 @@ export type SignupInput = {
 }
 
 @Service()
-export class AuthService {
+export class UserService {
   constructor(private userRepository: UserRepository) {}
 
   async login(input: LoginInput) {

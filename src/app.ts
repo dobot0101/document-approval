@@ -4,7 +4,7 @@ import express, { Express, NextFunction, Request, Response } from 'express'
 import { createDataSource } from './common/data-source'
 import { initTestData } from './common/init-data'
 import approvalRequestRouter from './controllers/ApprovalRequest.controller'
-import authRouter from './controllers/Auth.controller'
+import userRouter from './controllers/User.controller'
 
 async function main() {
   const AppDataSource = createDataSource()
@@ -28,7 +28,7 @@ function initServer() {
   })
 
   // 인증(회원가입, 로그인)
-  app.use('/auth', authRouter)
+  app.use('/user', userRouter)
 
   // 결재
   app.use('/approval-request', approvalRequestRouter)

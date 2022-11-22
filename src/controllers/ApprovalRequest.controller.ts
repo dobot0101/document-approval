@@ -10,42 +10,6 @@ const router = express.Router()
 const approvalRequestService = Container.get(ApprovalRequestService)
 
 /**
- * INBOX: 내가 결재를 해야 할 문서
- */
-router.get('/list/inbox', authenticateToken, async (req, res, next) => {
-  try {
-    const requests = await approvalRequestService.findInbox(req.userId!)
-    res.status(200).json(requests)
-  } catch (error) {
-    next(error)
-  }
-})
-
-/**
- * OUTBOX: 내가 생성한 문서 중 결재 진행 중인 문서
- */
-router.get('/list/outbox', authenticateToken, async (req, res, next) => {
-  try {
-    const requests = await approvalRequestService.findOutbox(req.userId!)
-    res.status(200).json(requests)
-  } catch (error) {
-    next(error)
-  }
-})
-
-/**
- * ARCHIVE: 내가 관여한 문서 중 결재가 완료(승인 또는 거절)된 문서
- */
-router.get('/list/archive', authenticateToken, async (req, res, next) => {
-  try {
-    const requests = await approvalRequestService.findArchive(req.userId!)
-    res.status(200).json(requests)
-  } catch (error) {
-    next(error)
-  }
-})
-
-/**
  * 승인
  */
 router.post(
@@ -118,5 +82,41 @@ router.post(
     }
   },
 )
+
+/**
+ * INBOX: 내가 결재를 해야 할 문서
+ */
+router.get('/list/inbox', authenticateToken, async (req, res, next) => {
+  try {
+    const requests = await approvalRequestService.findInbox(req.userId!)
+    res.status(200).json(requests)
+  } catch (error) {
+    next(error)
+  }
+})
+
+/**
+ * OUTBOX: 내가 생성한 문서 중 결재 진행 중인 문서
+ */
+router.get('/list/outbox', authenticateToken, async (req, res, next) => {
+  try {
+    const requests = await approvalRequestService.findOutbox(req.userId!)
+    res.status(200).json(requests)
+  } catch (error) {
+    next(error)
+  }
+})
+
+/**
+ * ARCHIVE: 내가 관여한 문서 중 결재가 완료(승인 또는 거절)된 문서
+ */
+router.get('/list/archive', authenticateToken, async (req, res, next) => {
+  try {
+    const requests = await approvalRequestService.findArchive(req.userId!)
+    res.status(200).json(requests)
+  } catch (error) {
+    next(error)
+  }
+})
 
 export default router

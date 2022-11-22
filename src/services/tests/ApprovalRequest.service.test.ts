@@ -6,12 +6,12 @@ import { User } from '../../entities/User.entity'
 import { ApprovalLineRepository } from '../../repositories/ApprovalLine.repository'
 import { ApprovalRequestRepository } from '../../repositories/ApprovalRequest.repository'
 import { ApprovalRequestService } from '../ApprovalRequest.service'
-import { AuthService } from '../Auth.service'
+import { UserService } from '../User.service'
 
 const approvalRequestService = Container.get(ApprovalRequestService)
 const approvalLineRepository = Container.get(ApprovalLineRepository)
 const approvalRequestRepository = Container.get(ApprovalRequestRepository)
-const authService = Container.get(AuthService)
+const userService = Container.get(UserService)
 
 const approvalLineInputs: { approverId: string; order: number }[] = []
 const emails: string[] = ['tester1@test.com', 'tester2@test.com', 'tester3@test.com']
@@ -138,7 +138,7 @@ afterAll(async () => {
 async function addUsersByEmail(emails: string[]) {
   const users = await Promise.all(
     emails.map(email =>
-      authService.signup({
+      userService.signup({
         email,
         name: 'tester',
         password: 'test',
