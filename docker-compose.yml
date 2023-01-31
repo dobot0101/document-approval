@@ -1,0 +1,28 @@
+services:
+  app:
+    # image: node:18-alpine
+    # command: sh -c "npm install && npm run dev"
+    build:
+      context: .
+      # dockerfile: dockerfile
+    ports:
+      - 3000:3000
+    working_dir: /app
+    volumes:
+      - ./:/app
+    env_file:
+      - .env
+  mysql:
+    image: mysql:8.0
+    ports:
+      - 3307:3306
+    volumes:
+      - document-approval-mysql-data:/var/lib/mysql
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DB}
+      TZ: Asia/Seoul
+volumes:
+  document-approval-mysql-data:

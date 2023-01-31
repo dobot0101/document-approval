@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "test": "jest -i",
-    "start": "tsc & node --enable-source-maps dist/app.js",
+    "start": "node --enable-source-maps dist/app.js",
     "dev": "tsc --watch --preserveWatchOutput & nodemon --enable-source-maps -w dist/ --delay 500ms dist/app.js"
   },
   "keywords": [],
