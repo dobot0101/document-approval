@@ -1,5 +1,4 @@
 import 'reflect-metadata'
-import { configs } from './common/configs'
 import express, { Express, NextFunction, Request, Response } from 'express'
 import { createDataSource } from './common/data-source'
 import { initTestData } from './common/init-data'
@@ -20,7 +19,7 @@ main().catch(error => console.log(error))
  */
 function initServer() {
   const app: Express = express()
-  const port = configs.PORT
+  const port = 3000
   app.use(express.json())
 
   app.get('/', (req: Request, res: Response) => {

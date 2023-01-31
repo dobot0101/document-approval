@@ -10,12 +10,12 @@ export let AppDataSource: DataSource
 export function createDataSource(isTest?: boolean) {
   AppDataSource = new DataSource({
     type: 'mysql',
-    host: configs.DB_HOST,
-    port: Number(configs.DB_PORT),
-    username: configs.DB_USERNAME,
-    password: configs.DB_PASSWORD,
+    host: configs.MYSQL_HOST,
+    port: 3306,
+    username: configs.MYSQL_USER,
+    password: configs.MYSQL_PASSWORD,
     // 테스트 코드 실행 시 TEST용 DB로 초기화 한다.
-    database: isTest ? configs.TEST_DB_DATABASE : configs.DB_DATABASE,
+    database: isTest ? configs.MYSQL_TESTDB : configs.MYSQL_DB,
     synchronize: true,
     dropSchema: true,
     logging: true,
