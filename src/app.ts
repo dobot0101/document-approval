@@ -4,6 +4,7 @@ import { createDataSource } from './common/data-source'
 import { initTestData } from './common/init-data'
 import approvalRequestRouter from './controllers/ApprovalRequest.controller'
 import userRouter from './controllers/User.controller'
+import { ValidationError } from './common/error-types'
 
 async function main() {
   const AppDataSource = createDataSource()
@@ -33,7 +34,11 @@ function initServer() {
   app.use('/approval-request', approvalRequestRouter)
 
   app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    res.status(500).json({ message: err.message })
+    let statusCode = 500
+    if (err instanceof ValidationError) {
+      statusCode = 400
+    }
+    res.status(statusCode).json({ message: err.message })
   })
 
   app.listen(port, () => {

@@ -21,8 +21,8 @@ router.post(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const input: SignupInput = req.body
-      const createdUser = await userService.signup(input)
-      res.status(200).json(createdUser)
+      const user = await userService.signup(input)
+      res.status(200).json(user)
     } catch (error) {
       next(error)
     }

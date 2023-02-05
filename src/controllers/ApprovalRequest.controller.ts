@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from 'express'
 import { body, param } from 'express-validator'
 import Container from 'typedi'
 import { checkValidationError } from '../common/functions'
-import { authenticateToken } from '../middlewares/auth.middleware'
+import { authenticateToken } from '../middlewares/auth'
 import { ApprovalRequestInput, ApprovalRequestService } from '../services/ApprovalRequest.service'
 import { ApprovalRequestType } from '../common/enums'
 
